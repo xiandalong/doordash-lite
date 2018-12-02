@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Discover Screen-->
+    <dimen name="discover_item_image_width">100dp</dimen>
+    <dimen name="discover_item_image_height">50dp</dimen>
+    <dimen name="discover_item_margin">16dp</dimen>
+    <dimen name="discover_item_image_margin">8dp</dimen>
+</resources>
