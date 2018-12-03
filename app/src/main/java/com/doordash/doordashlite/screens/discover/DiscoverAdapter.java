@@ -11,7 +11,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.doordash.StringUtils;
+import com.doordash.doordashlite.StringUtils;
 import com.doordash.doordashlite.R;
 import com.doordash.doordashlite.models.Restaurant;
 

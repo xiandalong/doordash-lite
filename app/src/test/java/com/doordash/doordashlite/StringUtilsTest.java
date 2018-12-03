@@ -1,6 +1,5 @@
 package com.doordash.doordashlite;
 
-import com.doordash.StringUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;

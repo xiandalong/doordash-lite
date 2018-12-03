@@ -1,4 +1,4 @@
-package com.doordash;
+package com.doordash.doordashlite;
 
 import android.support.annotation.Nullable;
 
