@@ -8,7 +8,7 @@ public class Restaurant {
     private static final String PREOFER = "pre-order";
 
     @SerializedName("business_id")
-    public double businessId;
+    public long businessId;
 
     @SerializedName("name")
     public String name;
@@ -27,6 +27,8 @@ public class Restaurant {
 
     @SerializedName("status_type")
     public String statusType;
+
+    public boolean isLiked;
 
     public String getStatus() {
         if (this.statusType.equals(PREOFER)) {

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.doordash.doordashlite.StringUtils;
 import com.doordash.doordashlite.R;
@@ -21,9 +22,10 @@ import java.util.List;
 public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.DiscoverViewHolder> {
 
     private List<Restaurant> restaurants = new ArrayList<>();
+    private final DiscoverItemClickListener listener;
 
-    public DiscoverAdapter() {
-
+    DiscoverAdapter(@NonNull DiscoverItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,7 +33,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     public DiscoverViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         Context context = viewGroup.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_discover_layout, viewGroup, false);
-        return new DiscoverViewHolder(view);
+        return new DiscoverViewHolder(view, listener);
     }
 
     @Override
@@ -49,6 +51,11 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
         notifyDataSetChanged();
     }
 
+    void updateDiscoverItem(@NonNull Restaurant restaurant) {
+        int position = this.restaurants.indexOf(restaurant);
+        notifyItemChanged(position);
+    }
+
     class DiscoverViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.discover_item_name)
         TextView itemNameTextView;
@@ -58,21 +65,45 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
         TextView itemStatusTextView;
         @BindView(R.id.discover_item_image)
         ImageView itemImageView;
+        @BindView(R.id.state_text_view)
+        TextView stateTextView;
+
+        @OnClick(R.id.like_button)
+        void onLikeButtonClick() {
+            listener.onLikeButtonClicked(restaurant);
+        }
+
+        @OnClick(R.id.unlike_button)
+        void onUnlikeButtonClick() {
+            listener.onUnlikeButtonClicked(restaurant);
+        }
 
         @NonNull
         private final Context context;
+        private final DiscoverItemClickListener listener;
+        private Restaurant restaurant;
 
-        DiscoverViewHolder(@NonNull View itemView) {
+        DiscoverViewHolder(@NonNull View itemView, @NonNull DiscoverItemClickListener listener) {
             super(itemView);
             this.context = itemView.getContext();
+            this.listener = listener;
             ButterKnife.bind(this, itemView);
         }
 
         void bindView(@NonNull Restaurant restaurant) {
+            this.restaurant = restaurant;
+
             itemNameTextView.setText(restaurant.name);
             itemDescriptionTextView.setText(StringUtils.getTagString(restaurant.tags));
             itemStatusTextView.setText(restaurant.getStatus());
+            stateTextView.setText(restaurant.isLiked ? R.string.like : R.string.unlike);
             Glide.with(context).load(restaurant.coverImageUrl).into(itemImageView);
         }
+    }
+
+    interface DiscoverItemClickListener {
+        void onLikeButtonClicked(@NonNull Restaurant restaurant);
+
+        void onUnlikeButtonClicked(@NonNull Restaurant restaurant);
     }
 }

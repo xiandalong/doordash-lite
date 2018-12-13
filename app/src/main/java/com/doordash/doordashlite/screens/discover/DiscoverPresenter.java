@@ -1,6 +1,9 @@
 package com.doordash.doordashlite.screens.discover;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import com.doordash.doordashlite.preference.DefaultPreferenceManager;
+import com.doordash.doordashlite.preference.PreferenceManager;
 import com.doordash.doordashlite.models.Restaurant;
 import com.doordash.doordashlite.network.RetrofitClient;
 import io.reactivex.Flowable;
@@ -24,8 +27,10 @@ class DiscoverPresenter implements DiscoverContract.Presenter {
 
     @NonNull
     private PublishProcessor<Integer> publishProcessor = PublishProcessor.create();
+    private PreferenceManager preferenceManager;
 
-    DiscoverPresenter(@NonNull DiscoverContract.View view) {
+    DiscoverPresenter(@NonNull DiscoverContract.View view, @NonNull Context context) {
+        preferenceManager = new DefaultPreferenceManager(context);
         this.view = view;
     }
 
@@ -44,11 +49,30 @@ class DiscoverPresenter implements DiscoverContract.Presenter {
         publishProcessor.onNext(offset);
     }
 
+    @Override
+    public void onLikeButtonClicked(@NonNull Restaurant restaurant) {
+        restaurant.isLiked = true;
+        preferenceManager.setRestaurantState(restaurant.businessId, true);
+        view.updateDiscoverItem(restaurant);
+    }
+
+    @Override
+    public void onUnlikeButtonClicked(@NonNull Restaurant restaurant) {
+        restaurant.isLiked = false;
+        preferenceManager.setRestaurantState(restaurant.businessId, false);
+        view.updateDiscoverItem(restaurant);
+    }
+
     private void subscribePublishProcessor() {
         Disposable disposable = publishProcessor.onBackpressureDrop()
                 .concatMap((Function<Integer, Publisher<List<Restaurant>>>) this::getRestaurants)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::updateDiscoverList, Timber::e);
+                .subscribe(restaurants -> {
+                    for (Restaurant restaurant : restaurants) {
+                        restaurant.isLiked = preferenceManager.getRestaurantStateById(restaurant.businessId);
+                    }
+                    view.updateDiscoverList(restaurants);
+                }, Timber::e);
         disposables.add(disposable);
         publishProcessor.onNext(0);
     }

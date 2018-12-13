@@ -12,6 +12,7 @@
             android:layout_width="@dimen/discover_item_image_width"
             android:layout_height="@dimen/discover_item_image_height"
             android:contentDescription="@string/discover_item_image_description"
+            app:layout_constraintBottom_toTopOf="@id/like_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
     />
@@ -37,6 +38,7 @@
             android:layout_marginEnd="@dimen/discover_item_image_margin"
             app:layout_constraintStart_toEndOf="@id/discover_item_image"
             app:layout_constraintTop_toBottomOf="@id/discover_item_name"
+            app:layout_constraintBottom_toTopOf="@id/like_button"
             app:layout_constraintEnd_toStartOf="@id/discover_item_status"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Chinese, Soup"
@@ -49,6 +51,31 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/like_button"
             tools:text="22 mins"
     />
+
+    <Button
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/like"/>
+
+    <Button
+            android:id="@+id/unlike_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/like_button"
+            android:text="@string/unlike"/>
+
+    <TextView
+            android:id="@+id/state_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/unlike_button"
+            tools:text="like"/>
 </android.support.constraint.ConstraintLayout>

@@ -4,4 +4,6 @@
     <!--Discover Screen-->
     <string name="discover_toolbar_title">Discover</string>
     <string name="discover_item_image_description">discover item image</string>
+    <string name="like">Like</string>
+    <string name="unlike">Unlike</string>
 </resources>

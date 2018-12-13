@@ -21,7 +21,7 @@ public class DiscoverActivity extends AppCompatActivity implements DiscoverContr
     private DiscoverAdapter discoverAdapter;
 
     @NonNull
-    private final DiscoverPresenter presenter = new DiscoverPresenter(this);
+    private DiscoverPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +29,8 @@ public class DiscoverActivity extends AppCompatActivity implements DiscoverContr
         setContentView(R.layout.activity_discover);
 
         ButterKnife.bind(this);
+
+        presenter = new DiscoverPresenter(this, this);
 
         setTitle(R.string.discover_toolbar_title);
         initDiscoverAdapter();
@@ -51,8 +53,13 @@ public class DiscoverActivity extends AppCompatActivity implements DiscoverContr
         discoverAdapter.updateDiscoverList(restaurants);
     }
 
+    @Override
+    public void updateDiscoverItem(@NonNull Restaurant restaurant) {
+        discoverAdapter.updateDiscoverItem(restaurant);
+    }
+
     private void initDiscoverAdapter() {
-        discoverAdapter = new DiscoverAdapter();
+        discoverAdapter = new DiscoverAdapter(presenter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         discoverRecyclerView.setLayoutManager(linearLayoutManager);
         discoverRecyclerView.setAdapter(discoverAdapter);

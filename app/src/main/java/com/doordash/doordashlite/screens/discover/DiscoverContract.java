@@ -8,9 +8,11 @@ import java.util.List;
 class DiscoverContract {
     interface View {
         void updateDiscoverList(@NonNull List<Restaurant> restaurants);
+
+        void updateDiscoverItem(@NonNull Restaurant restaurant);
     }
 
-    interface Presenter {
+    interface Presenter extends DiscoverAdapter.DiscoverItemClickListener  {
         void onStart();
 
         void onDestroy();
