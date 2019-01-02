@@ -1,7 +1,9 @@
 package com.doordash.doordashlite.screens.discover;
 
+import android.support.annotation.NonNull;
 import com.doordash.doordashlite.models.Restaurant;
 import com.doordash.doordashlite.network.DoorDashApi;
+import com.doordash.doordashlite.preference.PreferenceManager;
 import io.reactivex.Flowable;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -30,6 +32,8 @@ public class DiscoverPresenterTest {
     private DiscoverContract.View view;
     @Mock
     private DoorDashApi doorDashApi;
+    @Mock
+    private PreferenceManager preferenceManager;
 
     private DiscoverPresenter presenter;
 
@@ -40,7 +44,7 @@ public class DiscoverPresenterTest {
         RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> testScheduler);
         RxJavaPlugins.setIoSchedulerHandler(s -> testScheduler);
         RxJavaPlugins.setComputationSchedulerHandler(s -> testScheduler);
-        presenter = new DiscoverPresenter(view);
+        presenter = new DiscoverPresenter(view, preferenceManager);
     }
 
     @Test
@@ -59,6 +63,25 @@ public class DiscoverPresenterTest {
         verify(view, times(2)).updateDiscoverList(any());
     }
 
+    @Test
+    public void favoriteRestaurant() {
+        Restaurant mockRestaurant = mockRestaurant();
+
+        presenter.onFavoriteRestaurantClicked(mockRestaurant);
+
+        verify(preferenceManager).setRestaurantState(mockRestaurant.businessId, true);
+        verify(view).updateDiscoverItem(any());
+    }
+
+    @Test
+    public void unFavoriteRestaurant() {
+        Restaurant mockRestaurant = mockRestaurant();
+        presenter.onUnfavoriteRestaurantClicked(mockRestaurant);
+
+        verify(preferenceManager).setRestaurantState(mockRestaurant.businessId, false);
+        verify(view).updateDiscoverItem(any());
+    }
+
     private void publishProcessorEvent() {
         publishProcessor.onNext(1);
     }
@@ -70,5 +93,12 @@ public class DiscoverPresenterTest {
         restaurant.statusType = "type";
         restaurant.tags = Arrays.asList("tag1", "tag2");
         return Collections.singletonList(restaurant);
+    }
+
+    @NonNull
+    private Restaurant mockRestaurant() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.businessId = 12;
+        return restaurant;
     }
 }

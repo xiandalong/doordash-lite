@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.doordash.doordashlite.R;
 import com.doordash.doordashlite.models.Restaurant;
+import com.doordash.doordashlite.preference.DefaultPreferenceManager;
 
 import java.util.List;
 
@@ -19,8 +20,6 @@ public class DiscoverActivity extends AppCompatActivity implements DiscoverContr
     RecyclerView discoverRecyclerView;
 
     private DiscoverAdapter discoverAdapter;
-
-    @NonNull
     private DiscoverPresenter presenter;
 
     @Override
@@ -30,7 +29,7 @@ public class DiscoverActivity extends AppCompatActivity implements DiscoverContr
 
         ButterKnife.bind(this);
 
-        presenter = new DiscoverPresenter(this, this);
+        presenter = new DiscoverPresenter(this, new DefaultPreferenceManager(this));
 
         setTitle(R.string.discover_toolbar_title);
         initDiscoverAdapter();

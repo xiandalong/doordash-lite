@@ -2,8 +2,9 @@
     <string name="app_name">DoorDashLite</string>
 
     <!--Discover Screen-->
-    <string name="discover_toolbar_title">Discover</string>
     <string name="discover_item_image_description">discover item image</string>
+    <string name="favorite_image_content_description">discover item favorite image</string>
+    <string name="discover_toolbar_title">Discover</string>
     <string name="like">Like</string>
     <string name="unlike">Unlike</string>
 </resources>

@@ -12,10 +12,8 @@
             android:layout_width="@dimen/discover_item_image_width"
             android:layout_height="@dimen/discover_item_image_height"
             android:contentDescription="@string/discover_item_image_description"
-            app:layout_constraintBottom_toTopOf="@id/like_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-    />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
             style="@style/DoorDashPrimaryTitle"
@@ -26,8 +24,7 @@
             app:layout_constraintStart_toEndOf="@id/discover_item_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Tsing Tao"
-    />
+            tools:text="Tsing Tao"/>
 
     <TextView
             style="@style/DoorDashPrimaryText"
@@ -38,44 +35,29 @@
             android:layout_marginEnd="@dimen/discover_item_image_margin"
             app:layout_constraintStart_toEndOf="@id/discover_item_image"
             app:layout_constraintTop_toBottomOf="@id/discover_item_name"
-            app:layout_constraintBottom_toTopOf="@id/like_button"
+            app:layout_constraintEnd_toStartOf="@id/favorite_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Chinese, Soup"/>
+
+    <ImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginStart="@dimen/discover_item_image_margin"
+            android:layout_marginEnd="@dimen/discover_item_image_margin"
+            android:contentDescription="@string/favorite_image_content_description"
             app:layout_constraintEnd_toStartOf="@id/discover_item_status"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Chinese, Soup"
-    />
+            android:src="@drawable/discover_item_state_drawable"/>
 
     <TextView
             style="@style/DoorDashPrimaryText"
             android:id="@+id/discover_item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/discover_item_image_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/like_button"
-            tools:text="22 mins"
-    />
-
-    <Button
-            android:id="@+id/like_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/like"/>
-
-    <Button
-            android:id="@+id/unlike_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/like_button"
-            android:text="@string/unlike"/>
-
-    <TextView
-            android:id="@+id/state_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/unlike_button"
-            tools:text="like"/>
+            tools:text="22 mins"/>
 </android.support.constraint.ConstraintLayout>

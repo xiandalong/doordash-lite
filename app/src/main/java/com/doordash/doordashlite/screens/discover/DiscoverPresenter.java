@@ -1,8 +1,6 @@
 package com.doordash.doordashlite.screens.discover;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import com.doordash.doordashlite.preference.DefaultPreferenceManager;
 import com.doordash.doordashlite.preference.PreferenceManager;
 import com.doordash.doordashlite.models.Restaurant;
 import com.doordash.doordashlite.network.RetrofitClient;
@@ -29,8 +27,8 @@ class DiscoverPresenter implements DiscoverContract.Presenter {
     private PublishProcessor<Integer> publishProcessor = PublishProcessor.create();
     private PreferenceManager preferenceManager;
 
-    DiscoverPresenter(@NonNull DiscoverContract.View view, @NonNull Context context) {
-        preferenceManager = new DefaultPreferenceManager(context);
+    DiscoverPresenter(@NonNull DiscoverContract.View view, @NonNull PreferenceManager preferenceManager) {
+        this.preferenceManager = preferenceManager;
         this.view = view;
     }
 
@@ -50,14 +48,14 @@ class DiscoverPresenter implements DiscoverContract.Presenter {
     }
 
     @Override
-    public void onLikeButtonClicked(@NonNull Restaurant restaurant) {
+    public void onFavoriteRestaurantClicked(@NonNull Restaurant restaurant) {
         restaurant.isLiked = true;
         preferenceManager.setRestaurantState(restaurant.businessId, true);
         view.updateDiscoverItem(restaurant);
     }
 
     @Override
-    public void onUnlikeButtonClicked(@NonNull Restaurant restaurant) {
+    public void onUnfavoriteRestaurantClicked(@NonNull Restaurant restaurant) {
         restaurant.isLiked = false;
         preferenceManager.setRestaurantState(restaurant.businessId, false);
         view.updateDiscoverItem(restaurant);

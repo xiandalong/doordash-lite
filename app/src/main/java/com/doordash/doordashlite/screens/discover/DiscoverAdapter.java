@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -65,17 +66,16 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
         TextView itemStatusTextView;
         @BindView(R.id.discover_item_image)
         ImageView itemImageView;
-        @BindView(R.id.state_text_view)
-        TextView stateTextView;
+        @BindView(R.id.favorite_button)
+        ImageButton favoriteStatusImageView;
 
-        @OnClick(R.id.like_button)
-        void onLikeButtonClick() {
-            listener.onLikeButtonClicked(restaurant);
-        }
-
-        @OnClick(R.id.unlike_button)
-        void onUnlikeButtonClick() {
-            listener.onUnlikeButtonClicked(restaurant);
+        @OnClick(R.id.favorite_button)
+        void onFavoriteClicked() {
+            if (favoriteStatusImageView.isSelected()) {
+                listener.onUnfavoriteRestaurantClicked(restaurant);
+            } else {
+                listener.onFavoriteRestaurantClicked(restaurant);
+            }
         }
 
         @NonNull
@@ -96,14 +96,14 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
             itemNameTextView.setText(restaurant.name);
             itemDescriptionTextView.setText(StringUtils.getTagString(restaurant.tags));
             itemStatusTextView.setText(restaurant.getStatus());
-            stateTextView.setText(restaurant.isLiked ? R.string.like : R.string.unlike);
+            favoriteStatusImageView.setSelected(restaurant.isLiked);
             Glide.with(context).load(restaurant.coverImageUrl).into(itemImageView);
         }
     }
 
     interface DiscoverItemClickListener {
-        void onLikeButtonClicked(@NonNull Restaurant restaurant);
+        void onFavoriteRestaurantClicked(@NonNull Restaurant restaurant);
 
-        void onUnlikeButtonClicked(@NonNull Restaurant restaurant);
+        void onUnfavoriteRestaurantClicked(@NonNull Restaurant restaurant);
     }
 }
