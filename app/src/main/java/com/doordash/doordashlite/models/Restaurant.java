@@ -1,9 +1,11 @@
 package com.doordash.doordashlite.models;
 
 import com.google.gson.annotations.SerializedName;
+import org.parceler.Parcel;
 
 import java.util.List;
 
+@Parcel
 public class Restaurant {
     private static final String PREOFER = "pre-order";
 
